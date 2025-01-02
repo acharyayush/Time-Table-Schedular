@@ -1,17 +1,20 @@
-import generatePool from "./generatePool.js";
-const pool = generatePool();
+import pool from "./pool.js";
 const createTables = async () => {
   const semesterTableCreateQuery = `
         CREATE TABLE IF NOT EXISTS semesters (
             id SERIAL PRIMARY KEY,
-            faculty char(20) NOT NULL,
-            semester INT NOT NULL
+            faculty char(20) NOT NULL CHECK(faculty IN ('CSIT', 'BCA')),
+            semester INT NOT NULL,
+            UNIQUE (faculty, semester)
         )
     `;
   const teacherTableCreateQuery = `
         CREATE TABLE IF NOT EXISTS teachers (
             id SERIAL PRIMARY KEY,
-            name TEXT NOT NULL
+            name TEXT NOT NULL,
+            type char(20) NOT NULL CHECK(type IN ('Full Timer', 'Part Timer')),
+            startTime INT,
+            endTime INT
         )    
     `;
   const subjectTableCreateQuery = `
@@ -27,8 +30,8 @@ const createTables = async () => {
         sem_id INT,
         period INT,
         subject_id INT,
-        start_time INT,
-        end_time INT,
+        start_time INT NOT NULL,
+        end_time INT NOT NULL,
         PRIMARY KEY(sem_id, period),
         FOREIGN KEY(sem_id) REFERENCES semesters(id),
         FOREIGN KEY(subject_id) REFERENCES subjects(id)

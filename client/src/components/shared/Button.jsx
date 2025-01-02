@@ -5,6 +5,7 @@ import Modal from "./Modal";
 export default function Button({
   children,
   isDisable,
+  pendingText,
   onClick,
   className,
   navigateTo,
@@ -33,7 +34,7 @@ export default function Button({
             className
           )}
         >
-          {children}
+          {isDisable && pendingText ? pendingText : children}
         </button>
       );
     }

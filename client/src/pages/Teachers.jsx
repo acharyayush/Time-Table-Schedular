@@ -1,11 +1,11 @@
 import React from "react";
 import TeacherList from "../components/teachers/TeacherList";
-import TeacherAdd from "../components/teachers/TeacherAdd";
+import AddTeacherForm from "../components/teachers/AddTeacherForm";
 const Teachers = () => {
   return (
     <div className="overflow-x-auto w-[90vw] mx-auto mt-4">
       <br />
-      <TeacherAdd />
+      <AddTeacherForm />
       <br />
       <TeacherList faculty={"CSIT"} />
     </div>

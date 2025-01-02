@@ -8,7 +8,7 @@ const SemesterCard = ({ semester, to }) => {
             hover:scale-105 hover:shadow-xl overflow-hidden`}
     >
       <div className="h-full flex items-center justify-center p-4">
-        <h3 className="text-3xl font-semibold text-white">{semester}</h3>
+        <h3 className="text-3xl font-semibold text-white">Semester {semester}</h3>
       </div>
     </Link>
   );

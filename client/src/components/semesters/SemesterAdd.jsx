@@ -4,6 +4,7 @@ import Button from "../shared/Button";
 import { IoIosAddCircle } from "react-icons/io";
 const SemesterAdd = ({ faculty }) => {
   const [semesterNumber, setSemesterNumber] = useState("");
+  const [isPending, setIsPending] = useState(false);
   const [error, setError] = useState(null);
 
   const handleChange = (e) => {
@@ -13,18 +14,23 @@ const SemesterAdd = ({ faculty }) => {
   };
   const handleSemesterAdd = async (e) => {
     e.preventDefault();
+    setIsPending(true);
     try {
       // Check if the value is within the valid range
       if (semesterNumber >= 1 && semesterNumber <= 8) {
-        axios.post("/faculty/semester", {
+        await axios.post(`${import.meta.env.VITE_SERVER_BASEURL}/faculty/semesters`, {
           semesterNumber,
           faculty: faculty,
         });
+        setSemesterNumber("")
         setError(null);
       } else {
         setError("Semester number must be between 1 and 8.");
       }
-    } catch (err) {}
+    } catch (err) {
+      console.log("Could not add semester ", err);
+    }
+    setIsPending(false);
   };
   return (
     <form onSubmit={handleSemesterAdd}>
@@ -46,7 +52,14 @@ const SemesterAdd = ({ faculty }) => {
           className="p-3 outline-none border-2 border-gray-300 rounded-lg w-full"
           placeholder="Enter Semester Number"
         />
-        <Button className={" text-md absolute right-0 h-full p-0 m-0 mr-1 bg-transparent"}><IoIosAddCircle className="text-5xl text-teal-500" /></Button>
+        <Button
+          isDisable={isPending}
+          className={
+            " text-md absolute right-0 h-full p-0 m-0 mr-1 bg-transparent"
+          }
+        >
+          <IoIosAddCircle className="text-5xl text-teal-500" />
+        </Button>
       </div>
       {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
     </form>

@@ -1,14 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SemesterSelect from "../components/semesters/SemesterSelect";
 import SemesterAdd from "../components/semesters/SemesterAdd";
 
 const FacultyAndSemesters = () => {
   const faculties = ["CSIT", "BCA"];
-  const semesters = {
-    CSIT: ["Semester 1", "Semester 2", "Semester 3", "Semester 4"],
-    BCA: ["Semester 1", "Semester 2", "Semester 3", "Semester 4"],
-  };
-
   const [selectedFaculty, setSelectedFaculty] = useState(faculties[0]);
 
   return (
@@ -45,7 +40,7 @@ const FacultyAndSemesters = () => {
             </button>
           ))}
         </div>
-        {selectedFaculty && <SemesterAdd faculty={selectedFaculty}/>}
+        {selectedFaculty && <SemesterAdd faculty={selectedFaculty} />}
         <SemesterSelect faculty={selectedFaculty} />
       </div>
     </div>

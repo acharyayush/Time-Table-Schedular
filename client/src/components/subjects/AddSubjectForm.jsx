@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import Button from "../shared/Button";
+import axios from "axios";
 
 const AddSubjectForm = () => {
   const [formData, setFormData] = useState({
@@ -12,8 +14,8 @@ const AddSubjectForm = () => {
     "Nanda Kishor Ray",
     "Mark Zuckerberg",
   ];
+  const [isPending, setIsPending] = useState(false);
   const [error, setError] = useState(null);
-
   // Handle change for both subject name and teacher name
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -25,23 +27,27 @@ const AddSubjectForm = () => {
   };
 
   // Handle form submission
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
+  const handleSubmit = async(e) => {
+    e.preventDefault()
     // Validation
     if (!formData.subjectName || !formData.teacherName) {
       setError("Both subject name and teacher name are required.");
       return;
     }
-
-    // You can send the data to your backend here
-    console.log("Subject Added:", formData);
-
-    // Optionally clear the form after submission
-    setFormData({
-      subjectName: "",
-      teacherName: "",
-    });
+    setIsPending(true)
+    try {
+      console.log(formData)
+      await axios.post(`${import.meta.env.VITE_SERVER_BASEURL}/subjects`, formData);
+      // clear the form after submission
+      setFormData({
+        subjectName: "",
+        teacherName: "",
+      });
+      console.log("Added new subject");
+    } catch (err) {
+      console.log("Unable to add new subject: ", err);
+    }
+    setIsPending(false)
     setError(null);
   };
 
@@ -108,12 +114,14 @@ const AddSubjectForm = () => {
       )}
 
       {/* Submit Button */}
-      <button
+      <Button
+        isDisable={isPending}
+        pendingText={"Adding..."}
         type="submit"
-        className="w-full py-3 bg-teal-600 text-white rounded-lg hover:bg-teal-500"
+        className="w-full py-3 bg-teal-600 text-white rounded-lg hover:bg-teal-500 text-lg mx-0"
       >
         Add Subject
-      </button>
+      </Button>
     </form>
   );
 };

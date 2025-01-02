@@ -1,6 +1,7 @@
 import AddSubjectForm from "../components/subjects/AddSubjectForm";
 import SubjectCard from "../components/subjects/SubjectCard";
 import { useParams } from "react-router-dom";
+import PeriodManager from "../components/periods/PeriodManager";
 const Subjects = () => {
   const { faculty, semester } = useParams();
   const subjects = [
@@ -28,7 +29,7 @@ const Subjects = () => {
   return (
     <div className="w-[90vw] mx-auto mt-10">
       <AddSubjectForm />
-      <br/>
+      <br />
       <h3 className="text-3xl font-bold text-teal-700 mb-5">
         Subjects of {semester} ({faculty})
       </h3>
@@ -41,6 +42,8 @@ const Subjects = () => {
           />
         ))}
       </div>
+      <br/>
+      <PeriodManager />
     </div>
   );
 };
